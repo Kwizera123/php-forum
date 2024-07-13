@@ -1,4 +1,30 @@
 <?php require "includes/header.php"; ?>
+<?php require "config/config.php"; ?>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if(empty($_POST['author_name']) OR empty($_POST['replay'])) {
+      echo "<script>alert('One or More inputs are empty');</script>";
+    }else{
+      $author_name = $_POST['author_name'];
+      $replay = $_POST['replay'];
+      $post_id = $_POST['post_id'];
+
+      $insert = $conn->prepare("INSERT INTO replies (author_name, replay ,post_id) VALUES
+      (:author_name,:replay,:post_id)");
+
+      $insert-> execute([
+        ":author_name" => $author_name,
+        ":replay" => $replay,
+        ":post_id" => $post_id
+      ]);
+
+      header("location: single.php");
+    }
+  }
+?>
+
+
           <!-- Main content -->
           <div style="margin-top: 43px;" class="col-lg-9 mb-3">
            
@@ -27,16 +53,22 @@ Quickly engineer installed base content via client-based action items. Seamlessl
                   <h5>
                     <a href="#" class="text-primary">Write Comment</a>
                   </h5>
-                  <form>
+                  <form method="POST" action="single.php?id=1">
                     <div class="form-group">
                       <label for="exampleFormControlInput1">Author Name</label>
-                      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="author name">
+                      <input type="text" name="author_name" class="form-control" id="exampleFormControlInput1" placeholder="author name">
                     </div>
             
                     <div class="form-group">
-                      <label for="exampleFormControlTextarea1">Comment</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                      <label for="exampleFormControlTextarea1">Reply</label>
+                      <textarea class="form-control" name="replay" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
+
+                    <div class="form-group">
+                      
+                      <input type="hidden" name="post_id" value="1" class="form-control" id="exampleFormControlInput1" placeholder="author name">
+                    </div>
+                    <button name="submit" type="submit" class="mt-4 btn btn-primary w-100">Add Reply</button>
                   </form>
                 </div>
                 

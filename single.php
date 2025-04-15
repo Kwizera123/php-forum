@@ -16,12 +16,23 @@
       $insert-> execute([
         ":author_name" => $author_name,
         ":replay" => $replay,
-        ":post_id" => $post_id
+        ":post_id" => $post_id,
       ]);
 
       header("location: single.php");
     }
   }
+
+  //getting the replies
+  if(isset($_GET['id'])) {
+      $id = $_GET['id'];
+      $allReplies = $conn->query("SELECT * FROM replies WHERE post_id ='$id'");
+      $allReplies->execute();
+    
+      $replies = $allReplies->fetchAll(PDO::FETCH_OBJ);
+  }
+
+
 ?>
 
 
@@ -66,7 +77,7 @@ Quickly engineer installed base content via client-based action items. Seamlessl
 
                     <div class="form-group">
                       
-                      <input type="hidden" name="post_id" value="1" class="form-control" id="exampleFormControlInput1" placeholder="author name">
+                      <input type="hidden" name="post_id" value="<?php echo $id; ?>" class="form-control" id="exampleFormControlInput1" placeholder="author name">
                     </div>
                     <button name="submit" type="submit" class="mt-4 btn btn-primary w-100">Add Reply</button>
                   </form>
@@ -76,36 +87,23 @@ Quickly engineer installed base content via client-based action items. Seamlessl
           </div>
 
             <!-- Replies -->
+             <?php foreach ($replies as $singleReplay) : ?>
             <div style="margin-left: 40px;" class="card row-hover pos-relative py-3 px-3 mb-3 border-primary border-top-0 border-right-0 border-bottom-0 rounded-0">
                 <div class="row align-items-center">
                   <div class="col-md-12 mb-3 mb-sm-0">
                     <h5>
-                      <a href="#" class="text-primary">Mohamed Hassan</a>
+                      <a href="#" class="text-primary"><?php echo $singleReplay->author_name; ?></a>
                     </h5>
                     <p>
-                      Appropriately cultivate principle-centered infrastructures via world-class niches
+                    <?php echo $singleReplay->replay; ?>
                     </p>
-                    <p class="text-sm"><span class="op-6">Commented</span> <a class="text-black" href="#">20 minutes</a> ago</p>
+                    <p class="text-sm"><span class="op-6">Commented</span> <a class="text-black" href="#"><?php echo $singleReplay->created_at; ?></a> ago</p>
                   </div>
                   
                 </div>
             </div>
-
-            <div style="margin-left: 40px;" class="card row-hover pos-relative py-3 px-3 mb-3 border-primary border-top-0 border-right-0 border-bottom-0 rounded-0">
-                <div class="row align-items-center">
-                  <div class="col-md-12 mb-3 mb-sm-0">
-                    <h5>
-                      <a href="#" class="text-primary">Mohamed Hassan</a>
-                    </h5>
-                    <p>
-                      Appropriately cultivate principle-centered infrastructures via world-class niches
-                    </p>
-                    <p class="text-sm"><span class="op-6">Commented</span> <a class="text-black" href="#">20 minutes</a> ago</p>
-                  </div>
-                  
-                </div>
-            </div>
- 
+              <?php endforeach; ?>
+            
           </div>
           <!-- Sidebar content -->
           <?php require "includes/footer.php"; ?>

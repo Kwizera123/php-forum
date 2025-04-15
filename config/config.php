@@ -12,7 +12,7 @@ define("DBNAME", "forum");
 define("USER", "root");
 
 //Password
-define("PASS", "root");
+define("PASS", "");
 
 $conn = new PDO("mysql:host=".HOST.";dbname=".DBNAME.";",USER,PASS);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

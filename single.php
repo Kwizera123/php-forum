@@ -25,11 +25,19 @@
 
   //getting the replies
   if(isset($_GET['id'])) {
+
       $id = $_GET['id'];
       $allReplies = $conn->query("SELECT * FROM replies WHERE post_id ='$id'");
       $allReplies->execute();
     
       $replies = $allReplies->fetchAll(PDO::FETCH_OBJ);
+
+      // getting data for every post
+
+      $singlePost = $conn->query("SELECT * FROM posts WHERE id ='$id'");
+      $singlePost->execute();
+    
+      $single = $singlePost->fetch(PDO::FETCH_OBJ);
   }
 
 
@@ -44,15 +52,13 @@
               <div class="row align-items-center">
                 <div class="col-md-12 mb-3 mb-sm-0">
                   <h5>
-                    <a href="#" class="text-primary">Drupal 8 quick starter guide</a>
+                    <a href="#" class="text-primary"><?php echo $single->title; ?></a>
                   </h5>
                   <p>
-                    Appropriately cultivate principle-centered infrastructures via world-class niches. Professionally morph cooperative methods of empowerment for out-of-the-box resources. Monotonectally create cross-unit web services via efficient vortals. Quickly architect bleeding-edge niche markets rather than goal-oriented vortals. Completely grow reliable customer service rather than interdependent action items.
-
-Quickly engineer installed base content via client-based action items. Seamlessly transition backend models whereas business imperatives. Collaboratively optimize resource-leveling catalysts for change after cross-media paradigms. Assertively network extensible e-commerce whereas timely intellectual capital. Appropriately revolutionize premier infomediaries.
+                  <?php echo $single->body; ?>
                   </p>
-                  <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">20 minutes</a> <span class="op-6">ago by</span> <a class="text-black" href="#">KenyeW</a></p>
-                  <div class="text-sm op-5"> <a class="text-black mr-2" href="#">Programming</a></div>
+                  <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#"><?php echo $single->created_at; ?> by</span> <a class="text-black" href="#"><?php echo $single->post_author; ?></a></p>
+                  <div class="text-sm op-5"> <a class="text-black mr-2" href="#"><?php echo $single->category; ?></a></div>
                 </div>
                 
               </div>
@@ -97,7 +103,7 @@ Quickly engineer installed base content via client-based action items. Seamlessl
                     <p>
                     <?php echo $singleReplay->replay; ?>
                     </p>
-                    <p class="text-sm"><span class="op-6">Commented</span> <a class="text-black" href="#"><?php echo $singleReplay->created_at; ?></a> ago</p>
+                    <p class="text-sm"><span class="op-6">Commented</span> <a class="text-black" href="#"><?php echo $singleReplay->created_at; ?></a></p>
                   </div>
                   
                 </div>

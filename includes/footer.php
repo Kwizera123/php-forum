@@ -5,6 +5,24 @@
 
   $allPosts = $posts->fetchAll(PDO::FETCH_OBJ);
 
+  // Number of categories
+  $categories = $conn->query("SELECT COUNT(id) AS num_categories FROM categories");
+  $categories->execute();
+
+  $num_categ = $categories->fetch(PDO::FETCH_OBJ);
+
+    // Number of posts
+    $posts = $conn->query("SELECT COUNT(id) AS numPosts FROM posts");
+    $posts->execute();
+  
+    $num_posts = $posts->fetch(PDO::FETCH_OBJ);
+
+        // Number of replies
+        $replies = $conn->query("SELECT COUNT(id) AS numReplies FROM replies");
+        $replies->execute();
+      
+        $num_replies = $replies->fetch(PDO::FETCH_OBJ);
+
 
  ?>
 
@@ -27,6 +45,23 @@
         </div>
         <hr class="m-0">
         <?php endforeach; ?>
+
+        <div class="bg-white text-sm">
+                <h4 class="px-3 py-4 op-5 m-0 roboto-bold">
+                  Stats
+                </h4>
+                <hr class="my-0">
+                <div class="row text-center d-flex flex-row op-7 mx-0">
+                  <div class="col-sm-6 flex-ew text-center py-3 border-bottom border-right"> <a class="d-block lead font-weight-bold" href="#"><?php echo $num_categ->num_categories; ?></a> Categories </div>
+                  <div class="col-sm-6 col flex-ew text-center py-3 border-bottom mx-0"> <a class="d-block lead font-weight-bold" href="#"><?php echo $num_posts->numPosts; ?></a> Posts </div>
+                </div>
+                <div class="row d-flex flex-row op-7">
+                  <div class="col-sm-6 flex-ew text-center py-3 border-right mx-0"> <a class="d-block lead font-weight-bold" href="#"><?php echo $num_replies->numReplies; ?></a> Replies </div>
+                  <div class="col-sm-6 flex-ew text-center py-3 mx-0"> <a class="d-block lead font-weight-bold" href="#">Thank You</a> All ❤️ </div>
+                </div>
+              </div>
+
+
     </div>
   </div>
 </div>

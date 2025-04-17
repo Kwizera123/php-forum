@@ -24,6 +24,12 @@
       header("location: index.php");
     }
   }
+
+    // Getting categories
+    $categories = $conn->query("SELECT * FROM categories");
+    $categories->execute();
+  
+    $allCategories = $categories->fetchAll(PDO::FETCH_OBJ);
 ?>
 
           <!-- Main content -->
@@ -52,9 +58,9 @@
                     <label class="form-label">Choose Category</label>
 
                     <option selected>Choose Category</option>
-                    <option value="Design">Design</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Programming">Programming</option>
+                    <?php foreach($allCategories as $category) : ?>
+                    <option value="<?php echo $category->name; ?>"><?php echo $category->name; ?></option>
+                      <?php endforeach; ?>
                 </select>
 
                 <button name="submit" type="submit" class="btn btn-primary w-100">Submit</button>

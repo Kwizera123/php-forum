@@ -11,7 +11,7 @@
       $post_id = $_POST['post_id'];
 
       $insert = $conn->prepare("INSERT INTO replies (author_name, replay ,post_id) VALUES
-      (:author_name,:replay,:post_id)");
+      (:author_name,:replay, :post_id)");
 
       $insert-> execute([
         ":author_name" => $author_name,
@@ -19,7 +19,7 @@
         ":post_id" => $post_id,
       ]);
 
-      header("location: single.php");
+      header("location: index.php");
     }
   }
 
